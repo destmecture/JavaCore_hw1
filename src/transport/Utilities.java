@@ -1,6 +1,6 @@
 package transport;
 
-import java.util.regex.Pattern;
+import java.time.Year;
 
 class Utilities {
 
@@ -26,5 +26,30 @@ class Utilities {
         }
         return input;
     }
+    public static String checkCountry(String input) {
+        if (input == null||input.isBlank()) {
+            return "default";
+        } else {
+            return input.toUpperCase();
+        }
+    }
+    public static int checkYear(int year) {
+        int currentYear = Year.now().getValue();
+        int firstAutoYear = 1768;
+        if (year < firstAutoYear||year>currentYear) {
+            return firstAutoYear;
+        } else {
+            return year;
+        }
+    }
+
+    public static int checkMaxSpeed(int input) {
+        if (input <= 0||input>300) {
+            return 1;
+        } else {
+            return input;
+        }
+    }
+
 
 }

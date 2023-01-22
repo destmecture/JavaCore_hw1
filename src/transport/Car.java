@@ -1,21 +1,13 @@
 package transport;
 
-
 import java.util.regex.Pattern;
 
 import static transport.Utilities.*;
 
-public class Car {
-
-    private final String brand;
-    private final String model;
-    private final int year;
-    private final String country;
+public class Car extends Transport {
     private final String bodyType;
     private final int numOfSeats;
-
     private double engineValue;
-    private String color;
     private String transmission;
     private String regNumber;
     private String tiresType;
@@ -34,13 +26,16 @@ public class Car {
                String transmission,
                String regNumber,
                String tiresType,
+               int maxSpeed,
                Key key) {
-        this.brand = checkStringValidation(brand);
-        this.model = checkStringValidation(model);
+        super(brand,
+                model,
+                checkYear(year),
+                checkCountry(country),
+                color,
+                maxSpeed);
+
         this.engineValue = checkEngineValue(engineValue);
-        this.color = checkColor(color);
-        this.year = checkYear(year);
-        this.country = checkStringValidation(country);
         this.bodyType = checkStringValidation(bodyType);
         this.numOfSeats = checkIntValidation(numOfSeats);
         this.transmission = checkStringValidation(transmission);
@@ -50,22 +45,6 @@ public class Car {
     }
 
     //region getters
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
     public String getBodyType() {
         return bodyType;
     }
@@ -76,10 +55,6 @@ public class Car {
 
     public double getEngineValue() {
         return engineValue;
-    }
-
-    public String getColor() {
-        return color;
     }
 
     public String getTransmission() {
@@ -96,9 +71,6 @@ public class Car {
 //endregion
 
     //region setters
-    public void setColor(String color) {
-        this.color = checkColor(color);
-    }
 
     public void setEngineValue(double engineValue) {
         this.engineValue = checkEngineValue(engineValue);
@@ -118,14 +90,7 @@ public class Car {
 //endregion
 
     //region checking validation
-    private int checkYear(int year) {
-        int firstAutoYear = 1768;
-        if (year < firstAutoYear) {
-            return firstAutoYear;
-        } else {
-            return year;
-        }
-    }
+
 
     private double checkEngineValue(double engineValue) {
         double defaultValue = 1.5;
@@ -133,14 +98,6 @@ public class Car {
             return defaultValue;
         } else {
             return engineValue;
-        }
-    }
-
-    private String checkColor(String input) {
-        if (input == null || input.isBlank()) {
-            return "БЕЛЫЙ";
-        } else {
-            return input.toUpperCase();
         }
     }
 
@@ -161,6 +118,7 @@ public class Car {
         return "Неверный регистрационный номер";
     }
 
+
     private String checkTypeOfTires(String input) {
         String inputToUpper = input.toUpperCase();
         if (input == null || input.isBlank()) {
@@ -174,6 +132,8 @@ public class Car {
         }
         return "Тип резины неопределен";
     }
+
+
     //endregion
 
     //region car methods
@@ -217,12 +177,13 @@ public class Car {
 
     @Override
     public String toString() {
-        return brand + " "
-                + model + ", "
-                + year + " год выпуска, сборка в "
-                + country + ", "
-                + color + " " +
-                "цвет кузова. Обьем двигателя - "
+        return  getBrand() + " "
+                + getModel() + ", "
+                + getYear() + " год выпуска, сборка в "
+                + getCountry() + ". "
+                + getColor() + " " +
+                "цвет кузова. "
+                + getMaxSpeed()+ "км/ч - максимальная скорость. Обьем двигателя - "
                 + engineValue + " л.\nТип кузова - "
                 + bodyType + ". Количество пассажирских мест - "
                 + numOfSeats + ". Коробка передач - "
